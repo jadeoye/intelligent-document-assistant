@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>61022342-ffff-42b4-8a10-4504eb0cb3bb</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Azure.AI.FormRecognizer" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="App\" />
+    <None Remove="Interfaces\" />
+    <None Remove="Constants\" />
+    <None Remove="Helpers\" />
+    <None Remove="BackgroundTasks\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Constants\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="BackgroundTasks\" />
+  </ItemGroup>
+</Project>
