@@ -8,7 +8,7 @@ namespace DocumentAssistant.App
     public class Assistant : IAssistant
     {
         private IDocumentRecognizer _documentRecognizer;
-        private FileSystemWatcher watcher = new FileSystemWatcher(@"/Users/jadeoye/Downloads");
+        private FileSystemWatcher watcher = new FileSystemWatcher(@"/Users/jadeoye/Downloads/identity-documents");
 
         private List<string> TrackedFiles = new();
         private List<string> AllowedExtensions = new List<string> { ".pdf", ".png", ".jpg" };

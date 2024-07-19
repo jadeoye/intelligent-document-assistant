@@ -26,7 +26,7 @@ namespace Domain.Models
 
         public DriverLicense() : base()
         {
-            Type = Enums.DocumentType.DriversLicense;
+            DocumentType = Enums.DocumentType.DriversLicense;
         }
 
         public static DriverLicense Create(Address address, string countryRegion, DateTimeOffset dateOfBirth,

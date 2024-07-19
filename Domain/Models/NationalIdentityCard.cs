@@ -22,7 +22,7 @@ namespace Domain.Entities.Models
 
         public NationalIdentityCard() : base()
         {
-            Type = Enums.DocumentType.NationalIdentityCard;
+            DocumentType = Enums.DocumentType.NationalIdentityCard;
         }
 
         public static NationalIdentityCard Create(Address address, DateTimeOffset dateOfBirth, DateTimeOffset dateOfExpiration,

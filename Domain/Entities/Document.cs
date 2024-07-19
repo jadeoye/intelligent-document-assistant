@@ -28,7 +28,7 @@ namespace Domain.Entities
 			{
 				Name = Path.GetFileName(path),
 				Url = path,
-				Type = document.Type,
+				Type = document.DocumentType,
 				DocumentModel = document
 			};
 		}

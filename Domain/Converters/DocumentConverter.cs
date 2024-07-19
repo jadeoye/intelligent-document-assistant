@@ -30,7 +30,7 @@ namespace Domain.Converters
 
         public override void Write(Utf8JsonWriter writer, DocumentModel value, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, value.GetType(), options);
+            JsonSerializer.Serialize(writer, value, value.GetType(), options);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Domain.Entities.Models
 
         public SocialSecurityCard() : base()
 		{
-			Type = Enums.DocumentType.SocialSecurityCard;
+			DocumentType = Enums.DocumentType.SocialSecurityCard;
 		}
 
 		public static SocialSecurityCard Create(DateTimeOffset dateOfIssue, string documentNumber,

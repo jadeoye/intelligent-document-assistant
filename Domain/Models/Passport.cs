@@ -22,7 +22,7 @@ namespace Domain.Entities.Models
 
         public Passport() : base()
 		{
-            Type = Enums.DocumentType.Passport;
+            base.DocumentType = Enums.DocumentType.Passport;
 		}
 
         public static Passport Create(string countryRegion, DateTimeOffset dateOfBirth, DateTimeOffset dateOfExpiration,

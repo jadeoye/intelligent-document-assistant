@@ -7,7 +7,7 @@ namespace Domain.Entities.Models
     {
         public ResidencePermit() : base()
         {
-            Type = Enums.DocumentType.ResidencePermit;
+            DocumentType = Enums.DocumentType.ResidencePermit;
         }
 
         public string? Category { get; private set; }
