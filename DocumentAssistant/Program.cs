@@ -1,8 +1,12 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.BackgroundTasks;
+using Application.Interfaces;
 using DocumentAssistant.App;
 using DocumentAssistant.App.Interfaces;
-using DocumentAssistant.BackgroundTasks;
 using DocumentAssistant.Interfaces;
+using DocumentAssistant.Listeners;
+using DocumentAssistant.Utilities.Listeners;
+using DocumentAssistant.Utilities.Searchs;
+using Infrastructure.Configurations.Utilities;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,19 +21,29 @@ var builder = Host.CreateDefaultBuilder(args)
         .AddEnvironmentVariables();
     })
     .ConfigureServices((context, services) =>
-{
-    var configurationBuilder = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
-    services.AddSingleton<IConfiguration>(configurationBuilder);
+    {
+        var configurationBuilder = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
+        services.AddSingleton<IConfiguration>(configurationBuilder);
 
-    services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")));
+        var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
 
-    services.AddTransient<IAssistant, Assistant>();
-    services.AddSingleton<IDocumentRecognizer, DocumentRecognizer>();
-    services.AddSingleton<IIntentRecognizer, IntentRecognizer>();
+        services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(connectionString));
 
-    services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
-}).Build();
+        services.AddSingleton(new ReadOnlyDbConfiguration(connectionString));
+
+        services.AddTransient<IAssistant, Assistant>();
+        services.AddSingleton<IDocumentRecognizer, DocumentRecognizer>();
+        services.AddSingleton<IIntentRecognizer, IntentRecognizer>();
+        services.AddSingleton<ISpeechRecognizer, SpeechRecognizer>();
+        services.AddSingleton<IDocumentFinder, DocumentFinder>();
+        services.AddSingleton<ISearcher, Searcher>();
+        services.AddSingleton<IKeyboardListener, KeyboardListener>();
+        services.AddSingleton<IMicrophoneListener, MicrophoneListener>();
+
+        services.AddTransient<IReadOnlyAppDbContext, ReadOnlyAppDbContext>();
+        services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
+    }).Build();
 
 
 using(var context = builder.Services.GetService<AppDbContext>())

@@ -1,8 +1,8 @@
 ﻿using System;
 using Azure.AI.FormRecognizer.DocumentAnalysis;
-using Domain.Entities.Models;
+using Domain.Models;
 
-namespace DocumentAssistant.Helpers
+namespace Application.Helpers
 {
 	public class SocialSecurityCardExtractor
 	{

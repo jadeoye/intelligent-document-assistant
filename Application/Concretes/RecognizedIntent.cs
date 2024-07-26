@@ -1,7 +1,7 @@
 ﻿using System;
 using Domain.Enums;
 
-namespace DocumentAssistant.Concretes
+namespace Application.Concretes
 {
 	public class RecognizedIntent
 	{

@@ -2,7 +2,6 @@
 using System.Text.Json;
 using Domain.Converters;
 using Domain.Enums;
-using Domain.Entities.Models;
 using Domain.Models.Base;
 
 namespace Domain.Entities

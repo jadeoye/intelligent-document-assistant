@@ -1,27 +1,26 @@
 ﻿using System;
 using Azure.AI.FormRecognizer.DocumentAnalysis;
-using Domain.Entities.Models;
+using Domain.Models;
 
-namespace DocumentAssistant.Helpers
+namespace Application.Helpers
 {
-	public class ResidencePermitExtractor
-	{
-		public static ResidencePermit Extract(AnalyzedDocument identityDocument)
-		{
-			string category = string.Empty;
-			string countryRegion = string.Empty;
-			DateTimeOffset dateOfBirth = default;
-			DateTimeOffset dateOfExpiration = default;
-			DateTimeOffset dateOfIssue = default;
-			string documentNumber = string.Empty;
-			string firstName = string.Empty;
-			string lastName = string.Empty;
-			string placeOfBirth = string.Empty;
-			char sex = default;
-            
-            if (identityDocument.Fields.TryGetValue("Category", out DocumentField categoryField))
-                if (categoryField.FieldType == DocumentFieldType.String)
-                    category = categoryField.Value.AsString();
+    public class PassportExtractor
+    {
+        public static Passport Extract(AnalyzedDocument identityDocument)
+        {
+            string countryRegion = string.Empty;
+            DateTimeOffset dateOfBirth = default;
+            DateTimeOffset dateOfExpiration = default;
+            DateTimeOffset dateOfIssue = default;
+            string documentNumber = string.Empty;
+            string documentType = string.Empty;
+            string firstName = string.Empty;
+            string lastName = string.Empty;
+            string nationality = string.Empty;
+            string personalNumber = string.Empty;
+            string placeOfBirth = string.Empty;
+            string placeOfIssue = string.Empty;
+            char sex = default;
 
             if (identityDocument.Fields.TryGetValue("CountryRegion", out DocumentField countryRegionField))
                 if (countryRegionField.FieldType == DocumentFieldType.CountryRegion)
@@ -43,6 +42,10 @@ namespace DocumentAssistant.Helpers
                 if (documentNumberField.FieldType == DocumentFieldType.String)
                     documentNumber = documentNumberField.Value.AsString();
 
+            if (identityDocument.Fields.TryGetValue("DocumentType", out DocumentField documentTypeField))
+                if (documentTypeField.FieldType == DocumentFieldType.String)
+                    documentType = documentTypeField.Value.AsString();
+
             if (identityDocument.Fields.TryGetValue("FirstName", out DocumentField firstNameField))
                 if (firstNameField.FieldType == DocumentFieldType.String)
                     firstName = firstNameField.Value.AsString();
@@ -51,18 +54,34 @@ namespace DocumentAssistant.Helpers
                 if (lastNameField.FieldType == DocumentFieldType.String)
                     lastName = lastNameField.Value.AsString();
 
+            if (identityDocument.Fields.TryGetValue("Nationality", out DocumentField nationalityField))
+                if (nationalityField.FieldType == DocumentFieldType.String)
+                    nationality = nationalityField.Value.AsString();
+
+            if (identityDocument.Fields.TryGetValue("PersonalNumber", out DocumentField personalNumberField))
+                if (personalNumberField.FieldType == DocumentFieldType.String)
+                    personalNumber = personalNumberField.Value.AsString();
+
             if (identityDocument.Fields.TryGetValue("PlaceOfBirth", out DocumentField placeOfBirthField))
                 if (placeOfBirthField.FieldType == DocumentFieldType.String)
                     placeOfBirth = placeOfBirthField.Value.AsString();
+
+            if (identityDocument.Fields.TryGetValue("PlaceOfIssue", out DocumentField placeOfIssueField))
+                if (placeOfIssueField.FieldType == DocumentFieldType.String)
+                    placeOfIssue = placeOfIssueField.Value.AsString();
 
             if (identityDocument.Fields.TryGetValue("Sex", out DocumentField sexField))
                 if (sexField.FieldType == DocumentFieldType.String)
                     sex = sexField.Value.AsString().First();
 
-            var residencePermit = ResidencePermit.Create(category, countryRegion, dateOfBirth, dateOfExpiration,
-                dateOfIssue, documentNumber, firstName, lastName, placeOfBirth, sex);
+            var machineReadableZone = MachineReadableZone.Create(countryRegion, dateOfBirth, dateOfExpiration,
+                documentNumber, firstName, lastName, nationality, sex);
 
-            return residencePermit;
+            var passport = Passport.Create(countryRegion, dateOfBirth, dateOfExpiration, dateOfIssue, documentNumber,
+                documentType, firstName, lastName, machineReadableZone, nationality, personalNumber, placeOfBirth,
+                placeOfIssue, sex);
+
+            return passport;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace DocumentAssistant.Constants
+namespace Application.Constants
 {
 	public class RecognizerDocumentType
 	{

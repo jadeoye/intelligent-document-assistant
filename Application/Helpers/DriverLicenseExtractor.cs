@@ -1,25 +1,31 @@
 ﻿using System;
 using Azure.AI.FormRecognizer.DocumentAnalysis;
-using Domain.Entities.Models;
+using Domain.Models;
+using Domain.Models;
 using Domain.Models.Common;
 
-namespace DocumentAssistant.Helpers
+namespace Application.Helpers
 {
-    public class NationalIdentityCardExtractor
-    {
-        public static NationalIdentityCard Extract(AnalyzedDocument identityDocument)
-        {
+	public class DriverLicenseExtractor
+	{
+		public static DriverLicense Extract(AnalyzedDocument identityDocument)
+		{
             Address address = default;
+            string countryRegion = string.Empty;
             DateTimeOffset dateOfBirth = default;
             DateTimeOffset dateOfExpiration = default;
             DateTimeOffset dateOfIssue = default;
             string documentDecriminator = string.Empty;
             string documentNumber = string.Empty;
+            string endorsements = string.Empty;
+            string eyeColor = string.Empty;
             string firstName = string.Empty;
             string height = string.Empty;
             string lastName = string.Empty;
-            string personalNumber = string.Empty;
-            string placeOfBirth = string.Empty;
+            string region = string.Empty;
+            string restrictions = string.Empty;
+            string vehicleClassifications = string.Empty;
+            string weight = string.Empty;
             char sex = default;
 
             if (identityDocument.Fields.TryGetValue("Address", out DocumentField addressField))
@@ -32,6 +38,10 @@ namespace DocumentAssistant.Helpers
                         _address.Road, _address.State, _address.StateDistrict, _address.StreetAddress, _address.Suburb, _address.Unit);
                 }
             }
+
+            if (identityDocument.Fields.TryGetValue("CountryRegion", out DocumentField countryRegionField))
+                if (countryRegionField.FieldType == DocumentFieldType.CountryRegion)
+                    countryRegion = countryRegionField.Value.AsCountryRegion();
 
             if (identityDocument.Fields.TryGetValue("DateOfBirth", out DocumentField dateOfBirthField))
                 if (dateOfBirthField.FieldType == DocumentFieldType.Date)
@@ -53,6 +63,14 @@ namespace DocumentAssistant.Helpers
                 if (documentNumberField.FieldType == DocumentFieldType.String)
                     documentNumber = documentNumberField.Value.AsString();
 
+            if (identityDocument.Fields.TryGetValue("Endorsements", out DocumentField endorsementsField))
+                if (endorsementsField.FieldType == DocumentFieldType.String)
+                    endorsements = endorsementsField.Value.AsString();
+
+            if (identityDocument.Fields.TryGetValue("EyeColor", out DocumentField eyeColorField))
+                if (eyeColorField.FieldType == DocumentFieldType.String)
+                    eyeColor = eyeColorField.Value.AsString();
+
             if (identityDocument.Fields.TryGetValue("FirstName", out DocumentField firstNameField))
                 if (firstNameField.FieldType == DocumentFieldType.String)
                     firstName = firstNameField.Value.AsString();
@@ -65,22 +83,27 @@ namespace DocumentAssistant.Helpers
                 if (lastNameField.FieldType == DocumentFieldType.String)
                     lastName = lastNameField.Value.AsString();
 
-            if (identityDocument.Fields.TryGetValue("PersonalNumber", out DocumentField personalNumberField))
-                if (personalNumberField.FieldType == DocumentFieldType.String)
-                    personalNumber = personalNumberField.Value.AsString();
+            if (identityDocument.Fields.TryGetValue("Region", out DocumentField regionField))
+                if (regionField.FieldType == DocumentFieldType.String)
+                    region = regionField.Value.AsString();
 
-            if (identityDocument.Fields.TryGetValue("PlaceOfBirth", out DocumentField placeOfBirthField))
-                if (placeOfBirthField.FieldType == DocumentFieldType.String)
-                    placeOfBirth = placeOfBirthField.Value.AsString();
+            if (identityDocument.Fields.TryGetValue("Restrictions", out DocumentField restrictionsField))
+                if (restrictionsField.FieldType == DocumentFieldType.String)
+                    restrictions = restrictionsField.Value.AsString();
+
+            if (identityDocument.Fields.TryGetValue("VehicleClassifications", out DocumentField vehicleClassificationsField))
+                if (vehicleClassificationsField.FieldType == DocumentFieldType.String)
+                    vehicleClassifications = vehicleClassificationsField.Value.AsString();
 
             if (identityDocument.Fields.TryGetValue("Sex", out DocumentField sexField))
                 if (sexField.FieldType == DocumentFieldType.String)
                     sex = sexField.Value.AsString().First();
 
-            var nationalIdentityCard = NationalIdentityCard.Create(address, dateOfBirth, dateOfExpiration, dateOfIssue,
-                documentDecriminator, documentNumber, firstName, lastName, height, personalNumber, placeOfBirth, sex);
+            var driverLicense = DriverLicense.Create(address, countryRegion, dateOfBirth, dateOfExpiration, dateOfIssue,
+                documentDecriminator, documentNumber, endorsements, eyeColor, firstName, lastName, height, region,
+                restrictions, vehicleClassifications, weight, sex);
 
-            return nationalIdentityCard;
+            return driverLicense;
         }
     }
 }

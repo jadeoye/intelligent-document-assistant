@@ -1,14 +1,14 @@
 ﻿using System;
+using Application.Concretes;
+using Application.Interfaces;
 using Azure;
 using Azure.AI.Language.Conversations;
 using Azure.Core;
 using Azure.Core.Serialization;
-using DocumentAssistant.Concretes;
-using DocumentAssistant.Interfaces;
 using Domain.Enums;
 using Microsoft.Extensions.Configuration;
 
-namespace DocumentAssistant.BackgroundTasks
+namespace Application.BackgroundTasks
 {
 	public class IntentRecognizer : IIntentRecognizer
 	{
@@ -19,7 +19,7 @@ namespace DocumentAssistant.BackgroundTasks
 		public IntentRecognizer(IConfiguration configuration)
 		{
             if (configuration is null)
-                throw new ArgumentNullException("IConfiguration", "Configuration is null");
+                throw new ArgumentNullException("IConfiguration");
 
             _projectName = configuration["IntentProjectName"];
             _deploymentName = configuration["IntentDeploymentName"];
@@ -58,8 +58,6 @@ namespace DocumentAssistant.BackgroundTasks
 
                 dynamic conversationalTaskResult = response.Content.ToDynamicFromJson(JsonPropertyNames.CamelCase);
                 dynamic conversationPrediction = conversationalTaskResult.Result.Prediction;
-
-                Console.WriteLine(speech);
 
                 foreach (dynamic intent in conversationPrediction.Intents)
                 {

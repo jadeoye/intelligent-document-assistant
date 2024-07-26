@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Domain.Enums;
-using Domain.Entities.Models;
+using Domain.Models;
 using Domain.Models.Base;
 
 namespace Domain.Converters
@@ -22,6 +22,10 @@ namespace Domain.Converters
                 return _documentType switch
                 {
                     DocumentType.NationalIdentityCard => JsonSerializer.Deserialize<NationalIdentityCard>(doc.RootElement.GetRawText(), options),
+                    DocumentType.Passport => JsonSerializer.Deserialize<Passport>(doc.RootElement.GetRawText(), options),
+                    DocumentType.ResidencePermit => JsonSerializer.Deserialize<ResidencePermit>(doc.RootElement.GetRawText(), options),
+                    DocumentType.DriversLicense => JsonSerializer.Deserialize<DriverLicense>(doc.RootElement.GetRawText(), options),
+                    DocumentType.SocialSecurityCard => JsonSerializer.Deserialize<SocialSecurityCard>(doc.RootElement.GetRawText(), options),
                     _ => throw new Exception()
                 };
             }

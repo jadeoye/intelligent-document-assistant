@@ -1,7 +1,7 @@
 ﻿using System;
 using Domain.Models.Base;
 
-namespace Domain.Entities.Models
+namespace Domain.Models
 {
 	public class SocialSecurityCard : DocumentModel
 	{

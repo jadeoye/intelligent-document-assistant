@@ -1,34 +1,32 @@
 ﻿using System;
 using Azure;
 using Azure.AI.FormRecognizer.DocumentAnalysis;
-using Application.Common.Interfaces;
-using DocumentAssistant.Helpers;
 using Domain.Entities;
-using DocumentAssistant.Constants;
-using DocumentAssistant.App.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Domain.Models.Base;
+using Application.Interfaces;
+using Application.Constants;
+using Application.Helpers;
 
-namespace DocumentAssistant.BackgroundTasks
+namespace Application.BackgroundTasks
 {
     public class DocumentRecognizer : IDocumentRecognizer
     {
         private DocumentAnalysisClient _client;
         private readonly IAppDbContext _dbContext;
 
-      
         public DocumentRecognizer(IAppDbContext dbContext, IConfiguration configuration)
         {
             if (configuration is null)
-                throw new ArgumentNullException("IConfiguration", "Configuration is null");
+                throw new ArgumentNullException("IConfiguration");
 
             if(dbContext is null)
-                throw new ArgumentNullException("IDbContext", "DbContext is null");
+                throw new ArgumentNullException("IDbContext");
 
             _dbContext = dbContext;
 
-            string endpoint = configuration["RecognizerEndpoint"];
-            string apiKey = configuration["RecognizerApiKey"];
+            string endpoint = configuration["DocumentRecognizerEndpoint"];
+            string apiKey = configuration["DocumentRecognizerApiKey"];
 
             var credential = new AzureKeyCredential(apiKey);
             _client = new DocumentAnalysisClient(new Uri(endpoint), credential);

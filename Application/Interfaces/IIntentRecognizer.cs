@@ -1,7 +1,7 @@
 ﻿using System;
-using DocumentAssistant.Concretes;
+using Application.Concretes;
 
-namespace DocumentAssistant.Interfaces
+namespace Application.Interfaces
 {
 	public interface IIntentRecognizer
 	{

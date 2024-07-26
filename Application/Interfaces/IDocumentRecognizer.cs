@@ -1,5 +1,5 @@
 ﻿using System;
-namespace DocumentAssistant.App.Interfaces
+namespace Application.Interfaces
 {
 	public interface IDocumentRecognizer
 	{

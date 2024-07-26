@@ -3,7 +3,7 @@ using System.Net;
 using Domain.Models.Base;
 using Domain.Models.Common;
 
-namespace Domain.Entities.Models
+namespace Domain.Models
 {
     public class NationalIdentityCard : DocumentModel
     {
