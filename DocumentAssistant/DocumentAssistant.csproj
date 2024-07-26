@@ -18,6 +18,7 @@
     </PackageReference>
     <PackageReference Include="Azure.AI.FormRecognizer" Version="4.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+    <PackageReference Include="Azure.AI.Language.Conversations" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
@@ -28,6 +29,7 @@
     <None Remove="Constants\" />
     <None Remove="Helpers\" />
     <None Remove="BackgroundTasks\" />
+    <None Remove="Concretes\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\" />
@@ -35,6 +37,7 @@
     <Folder Include="Constants\" />
     <Folder Include="Helpers\" />
     <Folder Include="BackgroundTasks\" />
+    <Folder Include="Concretes\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.Development.json">

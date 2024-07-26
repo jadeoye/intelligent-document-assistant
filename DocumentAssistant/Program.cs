@@ -2,6 +2,7 @@
 using DocumentAssistant.App;
 using DocumentAssistant.App.Interfaces;
 using DocumentAssistant.BackgroundTasks;
+using DocumentAssistant.Interfaces;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,7 @@ var builder = Host.CreateDefaultBuilder(args)
 
     services.AddTransient<IAssistant, Assistant>();
     services.AddSingleton<IDocumentRecognizer, DocumentRecognizer>();
+    services.AddSingleton<IIntentRecognizer, IntentRecognizer>();
 
     services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 }).Build();

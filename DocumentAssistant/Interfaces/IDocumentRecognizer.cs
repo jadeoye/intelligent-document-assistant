@@ -3,7 +3,7 @@ namespace DocumentAssistant.App.Interfaces
 {
 	public interface IDocumentRecognizer
 	{
-		Task Recognize(string path);
+		Task RecognizeAsync(string path);
 	}
 }
 

@@ -1,20 +1,23 @@
 ﻿using System;
 using Application.Common.Interfaces;
 using DocumentAssistant.App.Interfaces;
+using DocumentAssistant.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DocumentAssistant.App
 {
     public class Assistant : IAssistant
     {
+        private IIntentRecognizer _intentRecognizer;
         private IDocumentRecognizer _documentRecognizer;
         private FileSystemWatcher watcher = new FileSystemWatcher(@"/Users/jadeoye/Downloads/identity-documents");
 
         private List<string> TrackedFiles = new();
         private List<string> AllowedExtensions = new List<string> { ".pdf", ".png", ".jpg" };
 
-        public Assistant(IDocumentRecognizer documentRecognizer)
+        public Assistant(IDocumentRecognizer documentRecognizer, IIntentRecognizer intentRecognizer)
         {
+            _intentRecognizer = intentRecognizer;
             _documentRecognizer = documentRecognizer;
 
             watcher.NotifyFilter = NotifyFilters.FileName;
@@ -25,7 +28,7 @@ namespace DocumentAssistant.App
 
         private void FileRemoved(object sender, FileSystemEventArgs e)
         {
-            Console.WriteLine("File Removed - " + e.FullPath);
+
         }
 
         public void Run()
@@ -33,6 +36,10 @@ namespace DocumentAssistant.App
             watcher.EnableRaisingEvents = true;
 
             Console.WriteLine("Listening for file changes in " + watcher.Path);
+
+            var recognizedIntent = Task.Run(async () =>
+            await _intentRecognizer.RecognizeAsync(speech: "Get me all passports having the first name as Jeremiah"));
+
             Console.ReadKey();
         }
 
@@ -43,7 +50,7 @@ namespace DocumentAssistant.App
             else
             {
                 TrackedFiles.Add(e.FullPath);
-                Task.Run(() => _documentRecognizer.Recognize(e.FullPath));
+                Task.Run(() => _documentRecognizer.RecognizeAsync(e.FullPath));
             }
         }
 

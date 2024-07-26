@@ -19,6 +19,12 @@ namespace DocumentAssistant.BackgroundTasks
       
         public DocumentRecognizer(IAppDbContext dbContext, IConfiguration configuration)
         {
+            if (configuration is null)
+                throw new ArgumentNullException("IConfiguration", "Configuration is null");
+
+            if(dbContext is null)
+                throw new ArgumentNullException("IDbContext", "DbContext is null");
+
             _dbContext = dbContext;
 
             string endpoint = configuration["RecognizerEndpoint"];
@@ -28,7 +34,7 @@ namespace DocumentAssistant.BackgroundTasks
             _client = new DocumentAnalysisClient(new Uri(endpoint), credential);
         }
 
-        public async Task Recognize(string path)
+        public async Task RecognizeAsync(string path)
         {
             try
             {
